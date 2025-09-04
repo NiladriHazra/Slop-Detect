@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlopDetect Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="settings-container">
+    <!-- Top-left GitHub icon link -->
+    <a class="github-link" href="https://github.com/slopdetect/extension" target="_blank" aria-label="Open SlopDetect GitHub repository">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.562 21.8 24 17.302 24 12 24 5.373 18.627 0 12 0z"/>
+      </svg>
+    </a>
+    <div class="content">
+      <div class="section">
+        <h2>API Configuration</h2>
+        <div class="form-group">
+          <label for="apiKey">Gemini API Key</label>
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="apiKey" 
+              placeholder="Enter your Gemini API key"
+              autocomplete="off"
+            >
+            <button type="button" id="toggleVisibility" class="toggle-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" id="eyeIcon">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="help-text">
+            <p>Your API key is stored securely in your browser and never shared.</p>
+            <p>Get your free API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="useDefault" checked>
+            <label for="useDefault">Use default API key if custom key fails</label>
+          </div>
+          <div class="help-text">
+            <p>Falls back to the built-in API key if your custom key encounters issues.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Detection Settings</h2>
+        <div class="form-group">
+          <label for="sensitivity">Detection Sensitivity</label>
+          <div class="slider-group">
+            <input type="range" id="sensitivity" min="1" max="10" value="5" class="slider">
+            <div class="slider-labels">
+              <span>Conservative</span>
+              <span>Balanced</span>
+              <span>Aggressive</span>
+            </div>
+          </div>
+          <div class="help-text">
+            <p>Adjust how sensitive the AI detection algorithm should be.</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="autoHighlight" checked>
+            <label for="autoHighlight">Auto-highlight suspicious phrases</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="showTooltips" checked>
+            <label for="showTooltips">Show explanatory tooltips</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Privacy & Data</h2>
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="collectStats" checked>
+            <label for="collectStats">Collect usage statistics</label>
+          </div>
+          <div class="help-text">
+            <p>Helps improve the extension. No personal data is collected.</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="button" id="clearAllData" class="danger-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+            </svg>
+            Clear All Data
+          </button>
+          <div class="help-text">
+            <p>Removes all stored data including API keys and statistics.</p>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div class="footer">
+      <div class="actions">
+        <button type="button" id="resetSettings" class="secondary-btn">Reset to Defaults</button>
+        <button type="button" id="saveSettings" class="primary-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+          </svg>
+          Save Settings
+        </button>
+      </div>
+    </div>
+
+    <div id="notification" class="notification hidden">
+      <div class="notification-content">
+        <span id="notificationText"></span>
+        <button id="closeNotification" class="close-btn">×</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

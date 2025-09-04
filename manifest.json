@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "SlopDetect",
+  "version": "1.0.0",
+  "description": "Detect AI-generated tweets on Twitter/X with real-time analysis",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SlopDetect"
+  },
+  "options_page": "options.html"
+}
