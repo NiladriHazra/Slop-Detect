@@ -31,8 +31,6 @@
 }
 .slop-detect-btn.icon-only span { display: none; }
 .slop-detect-btn.icon-only svg { width: 18.75px; height: 18.75px; }
-
-
 .slop-detect-btn:hover {
   background: transparent;
   color: rgb(29, 155, 240);
@@ -50,7 +48,6 @@
   flex-shrink: 0;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .slop-detect-btn {
     min-width: 32px;
@@ -235,7 +232,6 @@
   opacity: 1;
 }
 
-/* Line-level highlight (for entire suspicious sentences/lines) */
 .slop-line-highlight {
   background: linear-gradient(135deg, rgba(6, 182, 212, 0.18) 0%, rgba(6, 182, 212, 0.08) 100%);
   border-left: 3px solid rgba(6, 182, 212, 0.6);
@@ -358,7 +354,6 @@
   opacity: 1;
 }
 
-/* Explanation panel */
 .slop-explain {
   margin-top: 8px;
   padding-top: 8px;
@@ -452,7 +447,6 @@
   background: linear-gradient(90deg, rgba(16,185,129,0.7), rgba(16,185,129,0.5));
 }
 
-/* Reasons row */
 .slop-reasons {
   margin-top: 6px;
   display: flex;
@@ -470,7 +464,6 @@
 
 .slop-chips-row { margin-top: 6px; }
 
-/* Reason tooltips for highlights */
 .slop-highlight,
 .slop-line-highlight,
 .slop-human-highlight,

@@ -3,6 +3,13 @@
   "name": "SlopDetect",
   "version": "1.0.0",
   "description": "Detect AI-generated tweets on Twitter/X with real-time analysis",
+  "homepage_url": "https://github.com/NiladriHazra/Slop-Detect",
+  "icons": {
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
   "permissions": [
     "storage",
     "activeTab"
@@ -26,7 +33,13 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "SlopDetect"
+    "default_title": "SlopDetect",
+    "default_icon": {
+      "16": "logo.png",
+      "32": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png"
+    }
   },
   "options_page": "options.html"
 }

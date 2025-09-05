@@ -25,7 +25,6 @@ body {
   flex-direction: column;
 }
 
-/* Top-left GitHub link */
 .github-link {
   position: fixed;
   top: 16px;
@@ -57,7 +56,6 @@ body {
   outline-offset: 2px;
 }
 
-/* header removed */
 
 .content {
   flex: 1;

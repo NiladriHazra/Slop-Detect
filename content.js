@@ -107,11 +107,12 @@ function highlightSuspiciousText(tweetElement, suspiciousWords) {
   
   let node;
   while (node = walker.nextNode()) {
-    if (node.parentElement.closest('.slop-detect-btn, .slop-score-display')) continue;
+    if (node.parentElement.closest('.slop-detect-btn, .slop-score-display, .slop-highlight, .slop-line-highlight, .slop-human-highlight, .slop-human-line-highlight')) continue;
     textNodes.push(node);
   }
   
   const escapeForRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const normalizeForPattern = (s) => escapeForRegex(String(s).trim()).replace(/\s+/g, '\\s+');
   const allowShort = new Set(['ai','gpt']);
   const hasLetters = (s) => /[A-Za-z]/.test(s);
 
@@ -142,6 +143,12 @@ function highlightSuspiciousText(tweetElement, suspiciousWords) {
         let pattern = new RegExp(`\\b${escapeForRegex(raw)}\\b`, 'gi');
         content = content.replace(pattern, `<span class="slop-highlight" data-reason="${reason}" aria-label="${reason}" title="${reason}">$&</span>`);
         return;
+      }
+      // Flexible whitespace-tolerant fallback (handles punctuation/spacing differences)
+      const flex = new RegExp(normalizeForPattern(raw), 'gi');
+      if (flex.test(content)) {
+        hasHighlight = true;
+        content = content.replace(flex, `<span class="slop-highlight" data-reason="${reason}" aria-label="${reason}" title="${reason}">$&</span>`);
       }
     });
 
@@ -392,7 +399,6 @@ function addDetectionButton(article) {
     `;
     button.disabled = true;
     
-    // Set a timeout to prevent "Step is still running" hang
     const analysisTimeout = setTimeout(() => {
       if (isAnalyzing) {
         console.warn('SlopDetect: Analysis timed out after 30 seconds');
@@ -470,7 +476,6 @@ function addDetectionButton(article) {
       isAnalyzing = false;
     }
   });
-  // Ensure the button remains placed between reply and retweet if DOM reorders
   ensureButtonPosition(article);
 }
 
@@ -494,7 +499,6 @@ function displayResults(article, result) {
     return;
   }
   tweetContent.appendChild(scoreDisplay);
-  // Trigger animated reveal of score bar and numbers
   try { animateScoreDisplay(scoreDisplay); } catch (e) { /* no-op */ }
   
 
@@ -546,7 +550,6 @@ function displayResults(article, result) {
     const tEl = article.querySelector('[data-testid="tweetText"]');
     if (tEl) highlightSuspiciousText(tEl, mergedAiWords);
   }
-  // Merge AI-leaning lines from heuristic with model suspiciousLines
   const aiLinesAll = [
     ...(Array.isArray(result.suspiciousLines)
       ? result.suspiciousLines.map(it => {
@@ -563,7 +566,6 @@ function displayResults(article, result) {
     const tEl2 = article.querySelector('[data-testid="tweetText"]');
     if (tEl2) highlightSuspiciousLines(tEl2, aiLinesAll);
   }
-// Human-evidence highlights from heuristic
   const he = result.explain && result.explain.heuristic;
   if (he) {
     const tEl3 = article.querySelector('[data-testid="tweetText"]');
@@ -576,6 +578,23 @@ function displayResults(article, result) {
       }
     }
   }
+
+  try {
+    setTimeout(() => {
+      const tEl = article.querySelector('[data-testid="tweetText"]');
+      if (!tEl) return;
+      if (mergedAiWords.length > 0) highlightSuspiciousText(tEl, mergedAiWords);
+      if (aiLinesAll.length > 0) highlightSuspiciousLines(tEl, aiLinesAll);
+      if (he) {
+        if (he.humanEvidence && Array.isArray(he.humanEvidence.words) && he.humanEvidence.words.length > 0) {
+          highlightHumanText(tEl, he.humanEvidence.words);
+        }
+        if (he.humanEvidence && Array.isArray(he.humanEvidence.lines) && he.humanEvidence.lines.length > 0) {
+          highlightHumanLines(tEl, he.humanEvidence.lines);
+        }
+      }
+    }, 150);
+  } catch (e) { /* ignore */ }
   
   const button = article.querySelector('.slop-detect-btn');
   if (button) {
@@ -629,7 +648,6 @@ if (document.readyState === 'loading') {
   observeTweets();
 }
 
-// Helper to maintain centered placement between reply and retweet
 function ensureButtonPosition(article) {
   const actionBar = article.querySelector('[role="group"]');
   if (!actionBar) return;
@@ -647,7 +665,6 @@ function ensureButtonPosition(article) {
   }
 }
 
-// Debounced scan to ensure every visible tweet has a button and is centered
 function ensureButtonsAndPositions() {
   const articles = document.querySelectorAll('article[data-testid="tweet"]');
   articles.forEach(article => {

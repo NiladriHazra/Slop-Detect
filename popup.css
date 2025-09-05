@@ -87,7 +87,6 @@ body {
   transition: all 0.2s ease;
 }
 
-/* Ensure equal icon sizes */
 .header-actions .github-btn svg,
 .header-actions .settings-btn svg {
   width: 18px;
@@ -217,7 +216,6 @@ body {
   overflow: hidden;
 }
 
-/* subtle cyan glow wash in the corner while preserving the same background */
 .info-section::before {
   content: "";
   position: absolute;
